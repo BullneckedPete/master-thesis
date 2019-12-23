@@ -20,7 +20,8 @@ candidate_models <- candidateModels(X = X, y = y, L = L);
 print(candidate_models);
 
 #### Weighting using ARM with non uniform priors ####
-linRegARM <- linRegARM(X = X, y = y, nsim = 1000);
+nsim = 1000;
+linRegARM <- linRegARM(X = X, y = y, nsim = nsim, candidate_models = candidate_models);
 linRegARM$weight_vector;
 linRegARM$soil_importance;
 
@@ -28,6 +29,9 @@ linRegARM$soil_importance;
 library(SOIL);
 v_ARM <- SOIL(X, y, family = "gaussian", weight_type = "ARM", prior = TRUE);
 v_ARM
+
+
+#### Weighting using information criteria with nonuniform priors ####
 
 
 

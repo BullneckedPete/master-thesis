@@ -1,4 +1,4 @@
-linRegARM <- function(X, y, nsim) {
+linRegARM <- function(X, y, nsim, candidate_models) {
   sim_soil_importance <- matrix(0, ncol = nrow(candidate_models), nrow = nsim);
   for (j in 1:nsim) {
     # create a training and a test set of equal size
@@ -16,7 +16,7 @@ linRegARM <- function(X, y, nsim) {
     y2 <- y[(cut+1):length(y)];
     
     # s_k: number of non constant predictors for model k, that is |A^k|
-    s_k <- colSums(candidate_models);
+    s_k <- apply(candidate_models, 2, sum);
     # phi: a positive number to control the improvement of the prior weight (defaults to 1)
     phi <- 1;
     k <- ncol(candidate_models);
@@ -56,7 +56,7 @@ linRegARM <- function(X, y, nsim) {
     soil_importance <- weight_vector %*% t(candidate_models);
     sim_soil_importance[j, ] <- soil_importance;
   }
-  return (
+  return(
     list(
       weight_vector = round(weight_vector, 2), 
       soil_importance =  colSums(sim_soil_importance)/nsim
