@@ -1,6 +1,10 @@
 linRegBIC <- function(X, y, candidate_models) {
   
-  s_k <- apply(candidate_models, 2, sum);
+  if (nrow(candidate_models) > 1) {
+    s_k <- apply(candidate_models, 2, sum);
+  } else {
+    s_k <- candidate_models;
+  }
   k <- ncol(candidate_models);
   I_k <- rep(0, ncol(candidate_models));
   n <- nrow(X);

@@ -16,7 +16,12 @@ linRegARM <- function(X, y, nsim, candidate_models) {
     y2 <- y[(cut+1):length(y)];
     
     # s_k: number of non constant predictors for model k, that is |A^k|
-    s_k <- apply(candidate_models, 2, sum);
+    if (nrow(candidate_models) > 1) {
+      s_k <- apply(candidate_models, 2, sum);
+    } else {
+      s_k <- candidate_models;
+    }
+    
     # phi: a positive number to control the improvement of the prior weight (defaults to 1)
     phi <- 1;
     k <- ncol(candidate_models);

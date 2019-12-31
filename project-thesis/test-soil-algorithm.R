@@ -16,7 +16,7 @@ X <- data$X;
 y <- data$y;
 
 #### Generating the candidate models ####
-L = 1000 # number of different regularization parameters
+L = 100 # number of different regularization parameters
 candidate_models <- candidateModels(X = X, y = y, L = L);
 print(candidate_models);
 

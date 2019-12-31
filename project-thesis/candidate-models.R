@@ -21,10 +21,12 @@ candidateModels <- function(X, y, L) {
   A_combined <- cbind(A_scad_beta, A_mcp_beta, A_lasso_beta);
   colnames(A_combined) <- NULL;
   
+  # define an epsilon for the params
+  epsilon <- 0.00001;
   # transform A_combined to a binary vector since later we have to compute the SOIL importance as:
   # S_j = S(j;w,A) = sum(w_k*I(j E A^k)) for k = 1, ... , K and j = 1, ... , p where K is the number
   # of candidate models and p is the number of variables
-  A_combined <- apply(A_combined, 1:2, function(x) ifelse(x == 0, 0, 1));
+  A_combined <- apply(A_combined, 1:2, function(x) ifelse(x > epsilon, 1, 0));
   # remove duplicated columns
   candidate_models <- A_combined[ , !duplicated(t(A_combined))];
   candidate_models <- candidate_models[,-1];
