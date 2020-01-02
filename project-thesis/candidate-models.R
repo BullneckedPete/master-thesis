@@ -1,14 +1,14 @@
-candidateModels <- function(X, y, L) {
+candidateModels <- function(X, y, L, family) {
   require(glmnet);
   require(ncvreg);
   
   # SCAD
-  A_scad <- ncvreg(X = X, y = y, family = "gaussian", alpha = 1, penalty = "SCAD", nlambda = L);
+  A_scad <- ncvreg(X = X, y = y, family = family, alpha = 1, penalty = "SCAD", nlambda = L);
   # get rid of the intercept
   A_scad_beta <- as.matrix(A_scad$beta[-1,]);
   
   # MCP
-  A_mcp <- ncvreg(X = X, y = y, family = "gaussian", alpha = 1, penalty = "MCP", nlambda = L);
+  A_mcp <- ncvreg(X = X, y = y, family = family, alpha = 1, penalty = "MCP", nlambda = L);
   # get rid of the intercept
   A_mcp_beta <- as.matrix(A_scad$beta[-1,]);
   

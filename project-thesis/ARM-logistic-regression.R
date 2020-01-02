@@ -1,4 +1,4 @@
-linRegARM <- function(X, y, nsim, candidate_models) {
+logRegARM <- function(X, y, nsim, candidate_models) {
   sim_soil_importance <- matrix(0, ncol = nrow(candidate_models), nrow = nsim);
   for (j in 1:nsim) {
     # create a training and a test set of equal size
@@ -33,28 +33,32 @@ linRegARM <- function(X, y, nsim, candidate_models) {
       
       # extract the right indices form the candidate model in the current iteration
       # out of the design matrix
-      Xs_k <- D1[,indices];
+      Xs_k <- as.matrix(D1[ ,indices], ncol = 1);
       
-      # prepare the data for the linear regression
+      # prepare the data for the logistic regression
       reg_data <- as.data.frame(cbind(y1, Xs_k));
       
-      # fit standard linear regression of y on Xs_k using the training set D1
-      fit_lm_k <- lm( y1 ~ . , data = reg_data );
+      # fit logistic regression of y on Xs_k using the training set D1
+      fit_logreg_k <- glm( y1 ~ . , data = reg_data, family = "binomial" );
       
-      # get estimated standard deviation and coefficients
-      sigma_hat <- summary(fit_lm_k)$sigma;
-      coeff <-  fit_lm_k$coefficients[-1];
+      # get estimated coefficients
+      coeff <-  fit_logreg_k$coefficients[-1];
       bs_hat_k <- matrix(coeff, ncol = 1 , nrow = length(coeff));
       
-      # prepare the prediction data and compute the prediction t(Xs_k) %*% bs_hat on the test set D2
-      prediction_data <- as.matrix(D2[,indices]);
-      y2_prediction <- prediction_data %*% bs_hat_k;
+      # responding function of the predicted conditional probability
+      p_hat_k <- 1 / (1 + exp(-(Xs_k %*% bs_hat_k)));
+      
+      # prepare the prediction data 
+      prediction_data <- as.matrix(D2[ ,indices]);
+      
+      # compute the predicted probability on the test set {i | i E D2}
+      predicted_probability <- t(p_hat_k) %*% prediction_data;
       
       # compute the constant c_k used to compute the weight w_k later
       c_k <- s_k[i] * log( exp(1) * p / s_k[i] ) + 2 * log(s_k[i] + 2);
       
       # compute the nominator of the weight vector w_k for each candidate model
-      w_k_nominator[i] <- exp(1) ^ (-phi*c_k) * (sigma_hat^(-n/2)) * prod(exp ( -sigma_hat^-2 * (y2 - as.vector(y2_prediction))^2 / 2 ));
+      w_k_nominator[i] <- exp(1)^(-phi*c_k) * prod( as.vector(predicted_probability)^y2 * (1-as.vector(predicted_probability))^(1-y2));
     }
     w_k_nominator[!is.finite(w_k_nominator)] <- 0;
     weight_vector <- w_k_nominator / sum(w_k_nominator);
@@ -63,8 +67,9 @@ linRegARM <- function(X, y, nsim, candidate_models) {
   }
   return(
     list(
-      weight_vector = round(weight_vector, 2), 
+      weight_vector = round(weight_vector, 4), 
       soil_importance =  colSums(sim_soil_importance)/nsim
-  ));
+    )
+  );
 }
 
