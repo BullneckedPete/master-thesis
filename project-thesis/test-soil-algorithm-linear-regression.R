@@ -37,8 +37,8 @@ print(candidate_models)
 linRegBIC
 
 library(SOIL);
-v_ARM <- SOIL(X, y, family = "gaussian", weight_type = "BIC", prior = TRUE);
-v_ARM
+v_BIC <- SOIL(X, y, family = "gaussian", weight_type = "BIC", prior = TRUE);
+v_BIC
 
 
 
