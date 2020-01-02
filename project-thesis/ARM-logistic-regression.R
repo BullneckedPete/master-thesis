@@ -67,7 +67,7 @@ logRegARM <- function(X, y, nsim, candidate_models) {
   }
   return(
     list(
-      weight_vector = round(weight_vector, 4), 
+      weight_vector = round(weight_vector, 6), 
       soil_importance =  colSums(sim_soil_importance)/nsim
     )
   );

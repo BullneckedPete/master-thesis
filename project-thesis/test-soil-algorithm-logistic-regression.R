@@ -1,6 +1,7 @@
 source("generate-data.R");
 source("candidate-models.R");
 source("ARM-logistic-regression.R");
+source("BIC-logistic-regression.R");
 
 #### Generating data ####
 # number of observations
@@ -26,4 +27,12 @@ logRegARM
 
 library(SOIL);
 v_ARM <- SOIL(X, y, family = "binomial", weight_type = "ARM", prior = TRUE);
+v_ARM
+
+#### Weighting using information criteria with nonuniform priors ####
+logRegBIC <- logRegBIC(X = X, y = y, candidate_models = candidate_models);
+logRegBIC
+
+library(SOIL);
+v_ARM <- SOIL(X, y, family = "gaussian", weight_type = "BIC", prior = TRUE);
 v_ARM
