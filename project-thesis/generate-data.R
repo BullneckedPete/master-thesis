@@ -1,4 +1,4 @@
-generateData <- function(n, p, rho, sd, beta_star, type) {
+generateData <- function(n, p, rho, sd, beta_star, family) {
   
   # generate the (p x p) covariance matrix
   generateCovarianceMatrix <- function(rho, p) {
@@ -32,9 +32,9 @@ generateData <- function(n, p, rho, sd, beta_star, type) {
   
   Sigma <- generateCovarianceMatrix(rho = rho, p = p);
   X <- randomMvNorm(n = n, p = p, Sigma = Sigma);
-  if (type == "linear") {
+  if (family == "gaussian") {
     y <- generateLinearY(X = X, beta_star = beta_star, sd = sd, n = n);
-  } else if (type == "logistic") {
+  } else if (family == "binomial") {
     y <- generateLogisticY(X =X, beta_star = beta_star);
   }
   
