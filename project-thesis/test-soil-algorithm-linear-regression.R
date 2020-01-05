@@ -2,6 +2,7 @@ source("generate-data.R");
 source("candidate-models.R");
 source("ARM-linear-regression.R");
 source("BIC-linear-regression.R");
+require("SOIL");
 
 #### Generating data ####
 # number of observations
@@ -22,33 +23,17 @@ print(candidate_models);
 
 #### Weighting using ARM with non uniform priors ####
 nsim = 1000;
-linRegARM <- linRegARM(X = X, y = y, nsim = nsim, candidate_models = candidate_models);
-linRegARM
+linear_regression_arm <- linearRegressionARM(X = X, y = y, nsim = nsim, candidate_models = candidate_models);
+linear_regression_arm
 
 # Compare with the implementation from the autor, see example from official package manual
-library(SOIL);
 v_ARM <- SOIL(X, y, family = "gaussian", weight_type = "ARM", prior = TRUE);
 v_ARM
 
 
 #### Weighting using information criteria with nonuniform priors ####
-linRegBIC <- linRegBIC(X = X, y = y, candidate_models = candidate_models);
-print(candidate_models)
-linRegBIC
+linear_regression_bic <- linearRegressionBIC(X = X, y = y, candidate_models = candidate_models);
+linear_regression_bic
 
-library(SOIL);
 v_BIC <- SOIL(X, y, family = "gaussian", weight_type = "BIC", prior = TRUE);
 v_BIC
-
-
-
-
-
-
-
-
-
-
-
-
-
