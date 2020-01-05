@@ -21,11 +21,11 @@ linRegBIC <- function(X, y, candidate_models) {
     # out of the design matrix
     Xs_k <- X[ ,indices];
     
-    # prepare the data for the linear regression
+    # prepare the data for the logistic regression
     reg_data <- as.data.frame(cbind(y, Xs_k));
     colnames(reg_data)[1] <- "y";
     
-    # fit standard linear regression of y on Xs_k using the training set D1
+    # fit logistic regression of y on Xs_k
     fit_lm_k <- lm( y ~ . , reg_data );
     
     

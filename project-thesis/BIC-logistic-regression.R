@@ -25,7 +25,7 @@ logRegBIC <- function(X, y, candidate_models) {
     reg_data <- as.data.frame(cbind(y, Xs_k));
     colnames(reg_data)[1] <- "y";
     
-    # fit standard linear regression of y on Xs_k using the training set D1
+    # fit logistic regression of y on Xs_k
     fit_logReg_k <- glm( y ~ . , reg_data, family = "binomial" );
     
     # get the BIC to compute the weights
