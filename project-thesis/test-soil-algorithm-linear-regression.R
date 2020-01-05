@@ -10,13 +10,13 @@ n <- 100;
 p <- 5;
 rho <- 0.9;
 sd <- 0.1;
-beta_star <- matrix(c(0,0,1,0,0), ncol = 1);
+beta_star <- matrix(c(4,0,0,0,0), ncol = 1);
 data <- generateData(n = n, p = p, rho = rho, sd = sd, beta_star = beta_star, type = "linear");
 X <- data$X;
 y <- data$y;
 
 #### Generating the candidate models ####
-L = 100 # number of different regularization parameters
+L = 50 # number of different regularization parameters
 candidate_models <- candidateModels(X = X, y = y, L = L, family = "gaussian");
 print(candidate_models);
 

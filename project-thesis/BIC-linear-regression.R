@@ -21,13 +21,12 @@ linRegBIC <- function(X, y, candidate_models) {
     # out of the design matrix
     Xs_k <- X[ ,indices];
     
-    # prepare the data for the logistic regression
+    # prepare the data for the linear regression
     reg_data <- as.data.frame(cbind(y, Xs_k));
     colnames(reg_data)[1] <- "y";
     
-    # fit logistic regression of y on Xs_k
-    fit_lm_k <- lm( y ~ . , reg_data );
-    
+    # fit linear regression of y on Xs_k
+    fit_lm_k <- lm( y ~ . , data = reg_data );
     
     # calculate the residual sum of squares, defined as t(y)%*%y + t(y)%*% X %*% solve(t(X)%*% X) %*% t(X)%*% y
     # for more infos, check: https://en.wikipedia.org/wiki/Residual_sum_of_squares
