@@ -34,5 +34,5 @@ logRegBIC <- logRegBIC(X = X, y = y, candidate_models = candidate_models);
 logRegBIC
 
 library(SOIL);
-v_BIC <- SOIL(X, y, family = "gaussian", weight_type = "BIC", prior = TRUE);
+v_BIC <- SOIL(X, y, family = "binomial", weight_type = "BIC", prior = TRUE);
 v_BIC
