@@ -25,8 +25,8 @@ linearRegressionBIC <- function(X, y, candidate_models) {
     # for more infos, check: https://en.wikipedia.org/wiki/Residual_sum_of_squares
     residualSumOfSquares <- sum(resid(fit_lm_k)^2);
     # definition of I_k_BIC, see 'Gaussian special case' in https://en.wikipedia.org/wiki/Bayesian_information_criterion
-    I_k[i] <- n*log(residualSumOfSquares / n) + p*log(n);
-    C_k[i] <- s_k[i] * log( exp(1) * p / s_k[i] ) + 2 * log(s_k[i] + 2);
+    #I_k[i] <- n*log(residualSumOfSquares / n) + p*log(n);
+    I_k[i] <- BIC(fit_lm_k);
     w_k_numerator[i] <- exp(-I_k[i] / 2 - phi * C_k[i]);
   }
   w_k_denominator <- sum( exp(-I_k/2 - phi*C_k) );

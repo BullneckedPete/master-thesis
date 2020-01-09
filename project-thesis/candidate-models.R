@@ -25,5 +25,8 @@ candidateModels <- function(X, y, L, family) {
   # remove duplicated columns
   candidate_models <- A_combined[ , !duplicated(t(A_combined))];
   candidate_models <- candidate_models[,-1];
+  if (is.vector(candidate_models)){
+    candidate_models <- as.matrix(candidate_models);
+  }
   return( candidate_models );
 }

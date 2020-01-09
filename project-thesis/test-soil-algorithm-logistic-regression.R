@@ -8,10 +8,10 @@ require("SOIL");
 # number of observations
 n <- 100;
 # number of dimensions
-p <- 5;
+p <- 11;
 rho <- 0.9;
 sd <- 0.1;
-beta_star <- matrix(c(4,0,0,0,0), ncol = 1);
+beta_star <- matrix(c(4,0,0,0,0,0,0,0,0,0,0), ncol = 1);
 data <- generateData(n = n, p = p, rho = rho, sd = sd, beta_star = beta_star, family = "binomial");
 X <- data$X;
 y <- data$y;
