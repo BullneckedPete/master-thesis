@@ -97,7 +97,7 @@ for(beta_star in betas_logistic) {
   X <- data$X;
   y <- data$y;
   candidate_models <- candidateModels(X = X, y = y, L = L, family = "binomial");
-  logistic_regression_bic <- logisticRegressionARM(X = X, y = y, nsim = nsim, candidate_models = candidate_models);
+  logistic_regression_bic <- logisticRegressionBIC(X = X, y = y, candidate_models = candidate_models);
   soilBicLogisticRegression <- as.vector(logistic_regression_bic$soil_importance);
   print(soilBicLogisticRegression);
   v_BIC_logistic <- SOIL(X, y, family = "binomial", weight_type = "BIC", prior = TRUE);
@@ -108,6 +108,3 @@ for(beta_star in betas_logistic) {
   points(soilBicLogisticRegression_author, type = "o", col = "red");
   legend("topright", legend=c("Jonas", "Ye et al."), col=c("black", "red"), lwd = c(2,1) );
 }
-
-
-
