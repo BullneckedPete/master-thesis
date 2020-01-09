@@ -55,6 +55,7 @@ for(beta_star in betas_linear) {
   print(soilBicLinearRegression)
   v_BIC <- SOIL(X, y, family = "gaussian", weight_type = "BIC", prior = TRUE);
   soilBicLinearRegression_author <- as.vector(v_BIC$importance);
+  betas_string <- paste(beta_star, collapse = ", ");
   plot(soilBicLinearRegression, type = "o", ylim = c(0,1), xlim = c(1,p), ylab = "SOIL importance", xlab = "variable number", 
        main="Comparison BIC linear regression",lwd = 2, sub = paste(b, betas_string));
   points(soilBicLinearRegression_author, type = "o", col = "red");
