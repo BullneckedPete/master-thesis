@@ -13,11 +13,11 @@ betas_linear <- list(
   c(4, 4, 4, 6*sqrt(2), 4/3, rep(0, times = 5))
 );
 
-n <- 100;
+n <- 400;
 rho <- 0.9;
 sd <- 0.1;
 L <- 100;
-nsim <- 1000;
+nsim <- 100;
 
 par(mfrow=c(2,2));
 b <- "Beta's: ";
@@ -35,7 +35,7 @@ for(beta_star in betas_linear) {
   print(soilArmLinearRegression);
   v_ARM <- SOIL(X, y, family = "gaussian", weight_type = "ARM", prior = TRUE);
   soilArmLinearRegression_author <- as.vector(v_ARM$importance);
-  betas_string <- paste(beta_star, collapse = ", ");
+  betas_string <- paste(round(beta_star,2), collapse = ", ");
   plot(soilArmLinearRegression, type = "o", ylim = c(0,1), xlim = c(1,p), ylab = "Importance", xlab = "Variable Index", 
       lwd = 2, sub = paste(b, betas_string));
   points(soilArmLinearRegression_author, type = "o", col = "red");
@@ -55,7 +55,7 @@ for(beta_star in betas_linear) {
   print(soilBicLinearRegression)
   v_BIC <- SOIL(X, y, family = "gaussian", weight_type = "BIC", prior = TRUE);
   soilBicLinearRegression_author <- as.vector(v_BIC$importance);
-  betas_string <- paste(beta_star, collapse = ", ");
+  betas_string <- paste(round(beta_star,2), collapse = ", ");
   plot(soilBicLinearRegression, type = "o", ylim = c(0,1), xlim = c(1,p), ylab = "Importance", xlab = "Variable Index", 
       lwd = 2, sub = paste(b, betas_string));
   points(soilBicLinearRegression_author, type = "o", col = "red");
@@ -82,7 +82,7 @@ for(beta_star in betas_logistic) {
   print(soilArmLogisticRegression);
   v_ARM_logistic <- SOIL(X, y, family = "binomial", weight_type = "ARM", prior = TRUE);
   soilArmLogisticRegression_author <- as.vector(v_ARM_logistic$importance);
-  betas_string <- paste(beta_star, collapse = ", ");
+  betas_string <- paste(round(beta_star,2), collapse = ", ");
   plot(soilArmLogisticRegression, type = "o", ylim = c(0,1), xlim = c(1,p), ylab = "Importance", xlab = "Variable Index", 
       lwd = 2, sub = paste(b, betas_string));
   points(soilArmLogisticRegression_author, type = "o", col = "red");
@@ -102,7 +102,7 @@ for(beta_star in betas_logistic) {
   print(soilBicLogisticRegression);
   v_BIC_logistic <- SOIL(X, y, family = "binomial", weight_type = "BIC", prior = TRUE);
   soilBicLogisticRegression_author <- as.vector(v_ARM_logistic$importance);
-  betas_string <- paste(beta_star, collapse = ", ");
+  betas_string <- paste(round(beta_star,2), collapse = ", ");
   plot(soilBicLogisticRegression, type = "o", ylim = c(0,1), xlim = c(1,p), ylab = "Importance", xlab = "Variable Index", 
        main="Comparison BIC logistic regression",lwd = 2, sub = paste(b, betas_string));
   points(soilBicLogisticRegression_author, type = "o", col = "red");

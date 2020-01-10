@@ -6,7 +6,7 @@ require("SOIL");
 
 #### Generating data ####
 # number of observations
-n <- 100;
+n <- 1000;
 # number of dimensions
 p <- 5;
 rho <- 0.9;
@@ -17,12 +17,12 @@ X <- data$X;
 y <- data$y;
 
 #### Generating the candidate models ####
-L = 50 # number of different regularization parameters
+L <- 50 # number of different regularization parameters
 candidate_models <- candidateModels(X = X, y = y, L = L, family = "gaussian");
 print(candidate_models);
 
 #### Weighting using ARM with non uniform priors ####
-nsim = 1000;
+nsim <- 100;
 linear_regression_arm <- linearRegressionARM(X = X, y = y, nsim = nsim, candidate_models = candidate_models);
 linear_regression_arm
 

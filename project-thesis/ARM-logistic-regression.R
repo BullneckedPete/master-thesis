@@ -1,5 +1,7 @@
 logisticRegressionARM <- function(X, y, nsim, candidate_models) {
   sim_soil_importance <- matrix(0, ncol = nrow(candidate_models), nrow = nsim);
+  n <- nrow(X);
+  p <- ncol(X);
   for (j in 1:nsim) {
     # create a training and a test set of equal size
     # round up, if nrow(X) is odd
@@ -51,6 +53,8 @@ logisticRegressionARM <- function(X, y, nsim, candidate_models) {
       }
       # compute the nominator of the weight vector w_k for each candidate model
       w_k_nominator[i] <- exp(1)^(-phi*c_k) * prod( as.vector(predicted_probability)^y2 * (1-as.vector(predicted_probability))^(1-y2));
+      # if (!is.finite(w_k_nominator[i]))
+      #   w_k_nominator[i] <- 1
     }
     #w_k_nominator[!is.finite(w_k_nominator)] <- 0;
     weight_vector <- w_k_nominator / sum(w_k_nominator);
