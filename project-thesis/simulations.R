@@ -22,7 +22,7 @@ nsim <- 1000;
 par(mfrow=c(2,2));
 b <- "Beta's: ";
 
-# Comparison of ARM linear regression 
+# Comparison of ARM linear regression
 for(beta_star in betas_linear) {
   beta <- matrix(beta_star, ncol = 1);
   p <- nrow(beta);
@@ -37,7 +37,7 @@ for(beta_star in betas_linear) {
   soilArmLinearRegression_author <- as.vector(v_ARM$importance);
   betas_string <- paste(beta_star, collapse = ", ");
   plot(soilArmLinearRegression, type = "o", ylim = c(0,1), xlim = c(1,p), ylab = "Importance", xlab = "Variable Index", 
-       main="Comparison ARM linear regression",lwd = 2, sub = paste(b, betas_string));
+      lwd = 2, sub = paste(b, betas_string));
   points(soilArmLinearRegression_author, type = "o", col = "red");
   legend("left", legend=c("Jonas", "Ye et al."), col=c("black", "red"), lwd = c(2,1) );
 }
@@ -57,10 +57,9 @@ for(beta_star in betas_linear) {
   soilBicLinearRegression_author <- as.vector(v_BIC$importance);
   betas_string <- paste(beta_star, collapse = ", ");
   plot(soilBicLinearRegression, type = "o", ylim = c(0,1), xlim = c(1,p), ylab = "Importance", xlab = "Variable Index", 
-       main="Comparison BIC linear regression",lwd = 2, sub = paste(b, betas_string));
+      lwd = 2, sub = paste(b, betas_string));
   points(soilBicLinearRegression_author, type = "o", col = "red");
   legend("left", legend=c("Jonas", "Ye et al."), col=c("black", "red"), lwd = c(2,1) );
-  
 }
 
 betas_logistic <- list(
@@ -85,7 +84,7 @@ for(beta_star in betas_logistic) {
   soilArmLogisticRegression_author <- as.vector(v_ARM_logistic$importance);
   betas_string <- paste(beta_star, collapse = ", ");
   plot(soilArmLogisticRegression, type = "o", ylim = c(0,1), xlim = c(1,p), ylab = "Importance", xlab = "Variable Index", 
-       main="Comparison ARM logistic regression",lwd = 2, sub = paste(b, betas_string));
+      lwd = 2, sub = paste(b, betas_string));
   points(soilArmLogisticRegression_author, type = "o", col = "red");
   legend("topright", legend=c("Jonas", "Ye et al."), col=c("black", "red"), lwd = c(2,1) );
 }
