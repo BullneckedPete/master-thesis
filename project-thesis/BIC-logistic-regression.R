@@ -23,7 +23,11 @@ logisticRegressionBIC <- function(X, y, candidate_models) {
     fit_logReg_k <- glm( y ~ . , data = reg_data, family = "binomial" );
     # get the BIC to compute the weights
     I_k[i] <- BIC(fit_logReg_k);
-    C_k[i] <- s_k[i] * log( exp(1) * p / s_k[i] ) + 2 * log(s_k[i] + 2);
+    if (s_k[i] != 0) {
+      C_k[i] <-  2 * log(s_k[i] + 2) + s_k[i] * log( exp(1) * p / s_k[i] );
+    } else {
+      C_k[i] <-  2 * log(s_k[i] + 2);
+    }
     w_k_numerator[i] <- exp(-I_k[i] / 2 - phi * C_k[i]);
   }
   w_k_denominator <- sum( exp(-I_k/2 - phi*C_k) );

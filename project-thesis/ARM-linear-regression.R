@@ -42,7 +42,11 @@ linearRegressionARM <- function(X, y, nsim, candidate_models) {
       prediction_data <- as.matrix(D2[,indices]);
       y2_prediction <- prediction_data %*% bs_hat_k;
       # compute the constant c_k used to compute the weight w_k later
-      c_k <- s_k[i] * log( exp(1) * p / s_k[i] ) + 2 * log(s_k[i] + 2);
+      if (s_k[i] != 0) {
+        c_k <-  2 * log(s_k[i] + 2) + s_k[i] * log( exp(1) * p / s_k[i] );
+      } else {
+        c_k <-  2 * log(s_k[i] + 2);
+      }
       # compute the nominator of the weight vector w_k for each candidate model
       w_k_nominator[i] <- exp(1) ^ (-phi*c_k) * (sigma_hat^(-n/2)) * prod(exp ( -sigma_hat^-2 * (y2 - as.vector(y2_prediction))^2 / 2 ));
     }
