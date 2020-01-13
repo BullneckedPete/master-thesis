@@ -1,6 +1,5 @@
 generateData <- function(n, p, rho, sd, beta_star, family) {
   
-  set.seed(123);
   # generate the (p x p) covariance matrix
   generateCovarianceMatrix <- function(rho, p) {
     Sigma <- matrix(rep(0, times = p*p), nrow = p)
