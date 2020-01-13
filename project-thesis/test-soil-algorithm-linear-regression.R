@@ -6,7 +6,7 @@ require("SOIL");
 
 #### Generating data ####
 # number of observations
-n <- 1000;
+n <- 100;
 # number of dimensions
 p <- 5;
 rho <- 0.9;

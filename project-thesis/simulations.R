@@ -13,7 +13,7 @@ betas_linear <- list(
   c(4, 4, 4, 6*sqrt(2), 4/3, rep(0, times = 5))
 );
 
-n <- 400;
+n <- 100;
 rho <- 0.9;
 sd <- 0.1;
 L <- 100;
@@ -104,7 +104,7 @@ for(beta_star in betas_logistic) {
   soilBicLogisticRegression_author <- as.vector(v_ARM_logistic$importance);
   betas_string <- paste(round(beta_star,2), collapse = ", ");
   plot(soilBicLogisticRegression, type = "o", ylim = c(0,1), xlim = c(1,p), ylab = "Importance", xlab = "Variable Index", 
-       main="Comparison BIC logistic regression",lwd = 2, sub = paste(b, betas_string));
+      lwd = 2, sub = paste(b, betas_string));
   points(soilBicLogisticRegression_author, type = "o", col = "red");
   legend("topright", legend=c("Jonas", "Ye et al."), col=c("black", "red"), lwd = c(2,1) );
 }
