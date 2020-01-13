@@ -8,10 +8,10 @@ require("SOIL");
 # number of observations
 n <- 100;
 # number of dimensions
-p <- 7;
+p <- 10;
 rho <- 0.9;
 sd <- 0.1;
-beta_star <- matrix(c(1,1/3,1/4,1/6, 1/8, 0, 0), ncol = 1);
+beta_star <- matrix(c(4, 4, 4, 6*sqrt(2), 4/3, rep(0, times = 5)), ncol = 1);
 data <- generateData(n = n, p = p, rho = rho, sd = sd, beta_star = beta_star, family = "binomial");
 X <- data$X;
 y <- data$y;
@@ -22,7 +22,7 @@ candidate_models <- candidateModels(X = X, y = y, L = L, family = "binomial");
 print(candidate_models);
 
 #### Weighting using ARM with non uniform priors ####
-nsim <- 1000;
+nsim <- 100;
 logistic_regression_arm <- logisticRegressionARM(X = X, y = y, nsim = nsim, candidate_models = candidate_models);
 logistic_regression_arm
 

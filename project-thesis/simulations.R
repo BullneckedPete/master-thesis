@@ -21,6 +21,7 @@ nsim <- 100;
 
 par(mfrow=c(2,2));
 b <- "Beta's: ";
+set.seed(21);
 
 # Comparison of ARM linear regression
 for(beta_star in betas_linear) {

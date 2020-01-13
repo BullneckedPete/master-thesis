@@ -2,15 +2,15 @@ candidateModels <- function(X, y, L, family) {
   require(glmnet);
   require(ncvreg);
   # SCAD
-  A_scad <- ncvreg(X = X, y = y, family = family, alpha = 1, penalty = "SCAD", nlambda = L);
+  A_scad <- ncvreg(X = X, y = y, family = family, penalty = "SCAD", nlambda = L);
   # get rid of the intercept
   A_scad_beta <- as.matrix(A_scad$beta[-1,]);
   # MCP
-  A_mcp <- ncvreg(X = X, y = y, family = family, alpha = 1, penalty = "MCP", nlambda = L);
+  A_mcp <- ncvreg(X = X, y = y, family = family, penalty = "MCP", nlambda = L);
   # get rid of the intercept
-  A_mcp_beta <- as.matrix(A_scad$beta[-1,]);
+  A_mcp_beta <- as.matrix(A_mcp$beta[-1,]);
   # LASSO
-  A_lasso <- glmnet(x = X, y = y, family = "gaussian", alpha = 1, nlambda = L);
+  A_lasso <- glmnet(x = X, y = y, family = family, alpha = 1, nlambda = L);
   # the betas are in format  ("CsparseMatrix")., so we need to transform them
   A_lasso_beta <- as.matrix(A_lasso$beta);
   # get final models: with A_lambda_l = supp(b_hat^lambda_l) = {j: beta_hat_j^lambda_l != 0}
