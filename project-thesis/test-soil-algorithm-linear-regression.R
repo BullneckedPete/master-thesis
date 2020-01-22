@@ -6,18 +6,18 @@ require("SOIL");
 
 #### Generating data ####
 # number of observations
-n <- 100;
+n <- 1000;
 # number of dimensions
 p <- 5;
 rho <- 0.9;
 sd <- 0.1;
-beta_star <- matrix(c(4,0,0,0,0), ncol = 1);
+beta_star <- matrix(c(4,-4,0,0,0), ncol = 1);
 data <- generateData(n = n, p = p, rho = rho, sd = sd, beta_star = beta_star, family = "gaussian");
 X <- data$X;
 y <- data$y;
 
 #### Generating the candidate models ####
-L <- 50 # number of different regularization parameters
+L <- 100 # number of different regularization parameters
 candidate_models <- candidateModels(X = X, y = y, L = L, family = "gaussian");
 print(candidate_models);
 

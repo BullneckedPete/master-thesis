@@ -29,8 +29,8 @@ logisticRegressionBIC <- function(X, y, candidate_models) {
       C_k[i] <-  2 * log(s_k[i] + 2);
     }
     w_k_numerator[i] <- exp(-I_k[i] / 2 - phi * C_k[i]);
-    # if (!is.finite(w_k_numerator[i]))
-    #   w_k_numerator[i] <- 1
+    if (!is.finite(w_k_numerator[i]))
+      w_k_numerator[i] <- 1
   }
   w_k_denominator <- sum( exp(-I_k/2 - phi*C_k) );
   weight_vector <- w_k_numerator / w_k_denominator;

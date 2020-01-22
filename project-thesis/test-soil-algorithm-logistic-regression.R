@@ -21,13 +21,16 @@ L <- 100 # number of different regularization parameters
 candidate_models <- candidateModels(X = X, y = y, L = L, family = "binomial");
 print(candidate_models);
 
+
+v_ARM <- SOIL(X, y, family = "binomial", weight_type = "ARM", prior = TRUE);
+t(v_ARM$candidate_models_cleaned)[,-1]
+
 #### Weighting using ARM with non uniform priors ####
 nsim <- 100;
 logistic_regression_arm <- logisticRegressionARM(X = X, y = y, nsim = nsim, candidate_models = candidate_models);
 logistic_regression_arm
 
-v_ARM <- SOIL(X, y, family = "binomial", weight_type = "ARM", prior = TRUE);
-v_ARM
+
 
 #### Weighting using information criteria with nonuniform priors ####
 logistic_regression_bic <- logisticRegressionBIC(X = X, y = y, candidate_models = candidate_models);

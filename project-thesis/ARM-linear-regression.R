@@ -51,8 +51,9 @@ linearRegressionARM <- function(X, y, nsim, candidate_models) {
       }
       # compute the nominator of the weight vector w_k for each candidate model
       w_k_nominator[i] <- exp(1) ^ (-phi*c_k) * (sigma_hat^(-n/2)) * prod(exp ( -sigma_hat^-2 * (y2 - as.vector(y2_prediction))^2 / 2 ));
-      # if (!is.finite(w_k_nominator[i]))
-      #   w_k_nominator[i] <- 1
+      w_k_nominator[i] <- abs(w_k_nominator[i]);
+      if (!is.finite(w_k_nominator[i]))
+         w_k_nominator[i] <- 1
     }
     weight_vector <- w_k_nominator / sum(w_k_nominator);
     soil_importance <- weight_vector %*% t(candidate_models);

@@ -1,5 +1,6 @@
 logisticRegressionARM <- function(X, y, nsim, candidate_models) {
-  sim_soil_importance <- matrix(0, ncol = nrow(candidate_models), nrow = nsim);
+  sim_soil_importance <- matrix(NA, ncol = nrow(candidate_models), nrow = nsim);
+  weight_vectors <- matrix(NA, ncol = ncol(candidate_models), nrow = nsim);
   n <- nrow(X);
   p <- ncol(X);
   for (j in 1:nsim) {
@@ -31,20 +32,17 @@ logisticRegressionARM <- function(X, y, nsim, candidate_models) {
       indices <- as.vector(which(candidate_models[,i] != 0));
       # extract the right indices form the candidate model in the current iteration
       # out of the design matrix
-      Xs_k <- as.matrix(D1[ ,indices], ncol = 1);
+      Xs_k <- D1[ ,indices];
       # prepare the data for the logistic regression
       reg_data <- as.data.frame(cbind(y1, Xs_k));
       # fit logistic regression of y on Xs_k using the training set D1
       fit_logreg_k <- glm( y1 ~ . , data = reg_data, family = "binomial" );
       # get estimated coefficients
-      coeff <-  fit_logreg_k$coefficients[-1];
+      coeff <-  fit_logreg_k$coef;
       bs_hat_k <- matrix(coeff, ncol = 1 , nrow = length(coeff));
-      # responding function of the predicted conditional probability
-      p_hat_k <- 1 / (1 + exp(-(Xs_k %*% bs_hat_k)));
-      # prepare the prediction data 
-      prediction_data <- as.matrix(D2[ ,indices]);
+      # responding function of the predicted conditional probability:
       # compute the predicted probability on the test set {i | i E D2}
-      predicted_probability <- t(p_hat_k) %*% prediction_data;
+      pred_p_hat_k <-  1 / (1 + exp(-((cbind(1, D2[ ,indices]) %*% bs_hat_k))));
       # compute the constant c_k used to compute the weight w_k later
       if (s_k[i] != 0) {
         c_k <-  2 * log(s_k[i] + 2) + s_k[i] * log( exp(1) * p / s_k[i] );
@@ -52,19 +50,22 @@ logisticRegressionARM <- function(X, y, nsim, candidate_models) {
         c_k <-  2 * log(s_k[i] + 2);
       }
       # compute the nominator of the weight vector w_k for each candidate model
-      w_k_nominator[i] <- exp(1)^(-phi*c_k) * prod( as.vector(predicted_probability)^y2 * (1-as.vector(predicted_probability))^(1-y2));
-      # if (!is.finite(w_k_nominator[i]))
-      #   w_k_nominator[i] <- 1
+      w_k_nominator[i] <- exp(1)^(-phi*c_k) * prod( (pred_p_hat_k)^y2 * (1-pred_p_hat_k)^(1-y2));
+      #w_k_nominator[i] <- abs(w_k_nominator[i]);
+      if (!is.finite(w_k_nominator[i]))
+         w_k_nominator[i] <- 1;
     }
     #w_k_nominator[!is.finite(w_k_nominator)] <- 0;
-    weight_vector <- w_k_nominator / sum(w_k_nominator);
-    soil_importance <- weight_vector %*% t(candidate_models);
-    sim_soil_importance[j, ] <- soil_importance;
+    weight_vectors[j, ] <- w_k_nominator / sum(w_k_nominator);
+    # sim_soil_importance[j, ] <- soil_importance;
   }
+  weight_vector <- colMeans(weight_vectors);
+  soil_importance <- weight_vector %*% t(candidate_models);
   return(
     list(
       weight_vector = round(weight_vector, 6), 
-      soil_importance =  colSums(sim_soil_importance)/nsim
+      soil_importance = soil_importance
+      #soil_importance =  colSums(sim_soil_importance)/nsim
     )
   );
 }

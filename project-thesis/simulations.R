@@ -10,7 +10,7 @@ betas_linear <- list(
   c(4, rep(0, times = 4)),
   c(4, 2, 3, rep(0, times = 5)),
   c(rep(1, times = 10)),
-  c(4, 4, 4, 6*sqrt(2), 4/3, rep(0, times = 5))
+  c(4, 4, 4, -6*sqrt(2), 4/3, rep(0, times = 5))
 );
 
 n <- 100;
@@ -35,10 +35,11 @@ for(beta_star in betas_linear) {
     X <- data$X;
     y <- data$y;
     candidate_models <- candidateModels(X = X, y = y, L = L, family = "gaussian");
-    linear_regression_arm <- linearRegressionARM(X = X, y = y, nsim = nsim, candidate_models = candidate_models);
-    soilArmLinearRegression[i, ] <- as.vector(linear_regression_arm$soil_importance);
     v_ARM <- SOIL(X, y, family = "gaussian", weight_type = "ARM", prior = TRUE);
     soilArmLinearRegression_author[i, ] <- as.vector(v_ARM$importance);
+    linear_regression_arm <- linearRegressionARM(X = X, y = y, nsim = nsim, candidate_models = t(v_ARM$candidate_models_cleaned[-1,]));
+    soilArmLinearRegression[i, ] <- as.vector(linear_regression_arm$soil_importance);
+    
   }
   print(colMeans(soilArmLinearRegression));
   print(colMeans(soilArmLinearRegression_author));
@@ -61,10 +62,11 @@ for(beta_star in betas_linear) {
     X <- data$X;
     y <- data$y;
     candidate_models <- candidateModels(X = X, y = y, L = L, family = "gaussian");
-    linear_regression_bic <- linearRegressionBIC(X = X, y = y, candidate_models = candidate_models);
-    soilBicLinearRegression[i, ] <- as.vector(linear_regression_bic$soil_importance);
     v_BIC <- SOIL(X, y, family = "gaussian", weight_type = "BIC", prior = TRUE);
     soilBicLinearRegression_author[i, ] <- as.vector(v_BIC$importance);
+    linear_regression_bic <- linearRegressionBIC(X = X, y = y, candidate_models = t(v_BIC$candidate_models_cleaned[-1,]));
+    soilBicLinearRegression[i, ] <- as.vector(linear_regression_bic$soil_importance);
+    
   }
   print(colMeans(soilBicLinearRegression));
   print(colMeans(soilBicLinearRegression_author));
@@ -79,8 +81,8 @@ for(beta_star in betas_linear) {
 
 
 betas_logistic <- list(
-  c(4, rep(0, times = 4)),
-  c(4, 2, 3, rep(0, times = 5)),
+  #c(4, rep(0, times = 4)),
+  #c(4, 2, 3, rep(0, times = 5)),
   c(1, 1/2, 1/3, 1/4, 1/5, 1/6, 0),
   c(4, 4, 4, 6*sqrt(2), 4/3, rep(0, times = 5))
 );
@@ -96,10 +98,12 @@ for(beta_star in betas_logistic) {
     X <- data$X;
     y <- data$y;
     candidate_models <- candidateModels(X = X, y = y, L = L, family = "binomial");
-    logistic_regression_arm <- logisticRegressionARM(X = X, y = y, nsim = nsim, candidate_models = candidate_models);
-    soilArmLogisticRegression[i, ] <- as.vector(logistic_regression_arm$soil_importance);
     v_ARM_logistic <- SOIL(X, y, family = "binomial", weight_type = "ARM", prior = TRUE);
     soilArmLogisticRegression_author[i, ] <- as.vector(v_ARM_logistic$importance);
+    #logistic_regression_arm <- logisticRegressionARM(X = X, y = y, nsim = nsim, candidate_models = candidate_models);
+    logistic_regression_arm <- logisticRegressionARM(X = X, y = y, nsim = nsim, candidate_models = t( v_ARM_logistic$candidate_models_cleaned));
+    
+    soilArmLogisticRegression[i, ] <- as.vector(logistic_regression_arm$soil_importance);
   }
   print(colMeans(soilArmLogisticRegression));
   print(colMeans(soilArmLogisticRegression_author));
@@ -121,10 +125,10 @@ for(beta_star in betas_logistic) {
     X <- data$X;
     y <- data$y;
     candidate_models <- candidateModels(X = X, y = y, L = L, family = "binomial");
-    logistic_regression_bic <- logisticRegressionBIC(X = X, y = y, candidate_models = candidate_models);
-    soilBicLogisticRegression[i, ] <- as.vector(logistic_regression_bic$soil_importance);
     v_BIC_logistic <- SOIL(X, y, family = "binomial", weight_type = "BIC", prior = TRUE);
     soilBicLogisticRegression_author[i, ] <- as.vector(v_BIC_logistic$importance);
+    logistic_regression_bic <- logisticRegressionBIC(X = X, y = y, candidate_models = t(v_BIC_logistic$candidate_models_cleaned));
+    soilBicLogisticRegression[i, ] <- as.vector(logistic_regression_bic$soil_importance);
   }
   print(colMeans(soilBicLogisticRegression));
   print(colMeans(soilBicLogisticRegression_author));
