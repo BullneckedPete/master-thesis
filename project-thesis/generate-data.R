@@ -27,7 +27,7 @@ generateData <- function(n, p, rho, sd, beta_star, family) {
   
   generateLogisticY <- function(X, beta_star) {
     y <- 1 / (1 + exp(-(t(X) %*% beta_star)));
-    return ( sapply(y, function(x) ifelse(x<0.5, 0, 1)) );
+    return ( sapply(y, function(x) ifelse(x < 0.5, 0, 1)) );
   }
   
   Sigma <- generateCovarianceMatrix(rho = rho, p = p);

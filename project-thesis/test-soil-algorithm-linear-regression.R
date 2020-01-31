@@ -6,7 +6,7 @@ require("SOIL");
 
 #### Generating data ####
 # number of observations
-n <- 1000;
+n <- 600;
 # number of dimensions
 p <- 5;
 rho <- 0.9;
@@ -17,8 +17,7 @@ X <- data$X;
 y <- data$y;
 
 #### Generating the candidate models ####
-L <- 100 # number of different regularization parameters
-candidate_models <- candidateModels(X = X, y = y, L = L, family = "gaussian");
+candidate_models <- candidateModels(X = X, y = y, family = "gaussian");
 print(candidate_models);
 
 #### Weighting using ARM with non uniform priors ####
