@@ -13,16 +13,16 @@ betas_linear <- list(
   c(4, 4, 4, -6*sqrt(2), 4/3, rep(0, times = 5))
 );
 
-n <- 20;
+n <- 30;
 rho <- 0.9;
 sd <- 0.1;
-nsim <- 100;
+nsim <- 1000;
 
 par(mfrow=c(2,2));
 b <- "Beta's: ";
 
 # repeating the simulation to compute the average variable importance measures
-numberOfRepetitions <- 10;
+numberOfRepetitions <- 100;
 # Comparison of ARM linear regression
 for(beta_star in betas_linear) {
   beta <- matrix(beta_star, ncol = 1);
@@ -104,8 +104,9 @@ for(beta_star in betas_logistic) {
   print(colMeans(soilArmLogisticRegression));
   print(colMeans(soilArmLogisticRegression_author));
   betas_string <- paste(round(beta_star,2), collapse = ", ");
-  plot(colMeans(soilArmLogisticRegression), type = "o", ylim = c(0,1), xlim = c(1,p), ylab = "Importance", xlab = "Variable Index", 
-      lwd = 2, sub = paste(b, betas_string));
+  plot(colMeans(soilArmLogisticRegression), type = "o", ylim = c(0,1), 
+        xlim = c(1,p), ylab = "Importance", xlab = "Variable Index", 
+        lwd = 2, sub = paste(b, betas_string));
   points(colMeans(soilArmLogisticRegression_author), type = "o", col = "red");
   legend("topright", legend=c("Replication", "Ye et al."), col=c("black", "red"), lwd = c(2,1) );
 }

@@ -51,7 +51,7 @@ logisticRegressionARM <- function(X, y, nsim, candidate_models, phi = 1) {
   }
   weight_vector <- colMeans(checkIfWeightsValid(weight_vectors));
   soil_importance <- weight_vector %*% t(candidate_models);
-  return(
+  return (
     list(
       weight_vector = round(weight_vector, 6), 
       soil_importance = soil_importance

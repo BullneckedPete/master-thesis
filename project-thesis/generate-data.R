@@ -1,6 +1,5 @@
 generateData <- function(n, p, rho, sd, beta_star, family) {
   
-  # generate the (p x p) covariance matrix
   generateCovarianceMatrix <- function(rho, p) {
     Sigma <- matrix(rep(0, times = p*p), nrow = p)
     for (i in 1:p) {
@@ -11,7 +10,6 @@ generateData <- function(n, p, rho, sd, beta_star, family) {
     return(Sigma);
   }
   
-  # generate sample data from multivariate normal distribution using cholesky decomposition
   randomMvNorm <- function(n, p, Sigma) {
     mu <- rep(0, times = p);
     Z <- matrix(rnorm(p*n, mean = 0, sd = 1), nrow = p, ncol = n);
