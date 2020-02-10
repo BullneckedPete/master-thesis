@@ -7,7 +7,7 @@ source("BIC-logistic-regression.R");
 require("SOIL");
 
 betas_linear <- list(
-  c(4, -4, rep(0, times = 3)),
+  c(rep(0, times = 10)),
   c(4, 2, 3, rep(0, times = 5)),
   c(rep(1, times = 10)),
   c(4, 4, 4, -6*sqrt(2), 4/3, rep(0, times = 5))
@@ -16,13 +16,13 @@ betas_linear <- list(
 n <- 30;
 rho <- 0.9;
 sd <- 0.1;
-nsim <- 1000;
+nsim <- 100;
 
 par(mfrow=c(2,2));
 b <- "Beta's: ";
 
 # repeating the simulation to compute the average variable importance measures
-numberOfRepetitions <- 100;
+numberOfRepetitions <- 10;
 # Comparison of ARM linear regression
 for(beta_star in betas_linear) {
   beta <- matrix(beta_star, ncol = 1);
@@ -42,7 +42,7 @@ for(beta_star in betas_linear) {
   print(colMeans(soilArmLinearRegression));
   print(colMeans(soilArmLinearRegression_author));
   betas_string <- paste(round(beta_star,2), collapse = ", ");
-  plot(colMeans(soilArmLinearRegression), type = "o", ylim = c(0,1), xlim = c(1,p), ylab = "Importance", xlab = "Variable Index", 
+  plot(colMeans(soilArmLinearRegression), type = "o", ylim = c(0,1.5), xlim = c(1,p), ylab = "Importance", xlab = "Variable Index", 
        lwd = 2, sub = paste(b, betas_string));
   points(colMeans(soilArmLinearRegression_author), type = "o", col = "red");
   legend("topright", legend=c("Replication", "Ye et al."), col=c("black", "red"), lwd = c(2,1) ); 
@@ -69,10 +69,10 @@ for(beta_star in betas_linear) {
   print(colMeans(soilBicLinearRegression));
   print(colMeans(soilBicLinearRegression_author));
   betas_string <- paste(round(beta_star,2), collapse = ", ");
-  plot(colMeans(soilBicLinearRegression), type = "o", ylim = c(0,1), xlim = c(1,p), ylab = "Importance", xlab = "Variable Index", 
+  plot(colMeans(soilBicLinearRegression), type = "o", ylim = c(0,1.5), xlim = c(1,p), ylab = "Importance", xlab = "Variable Index", 
       lwd = 2, sub = paste(b, betas_string));
   points(colMeans(soilBicLinearRegression_author), type = "o", col = "red");
-  legend("left", legend=c("Replication", "Ye et al."), col=c("black", "red"), lwd = c(2,1) );
+  legend("topright", legend=c("Replication", "Ye et al."), col=c("black", "red"), lwd = c(2,1) );
 }
 
 

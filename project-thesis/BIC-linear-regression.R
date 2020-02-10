@@ -1,7 +1,7 @@
 source("helpers.R");
 linearRegressionBIC <- function(X, y, candidate_models, phi = 1) {
   I_k <- rep(0, ncol(candidate_models));
-  w_k_numerator <- C_k <- numeric(k);
+  w_k_numerator <- C_k <- numeric(ncol(candidate_models));
   s_k <- apply(candidate_models, 2, sum);
   k <- ncol(candidate_models);
   p <- ncol(X);
