@@ -30,6 +30,7 @@ generateData <- function(n, p, rho, sd, beta_star, family) {
   
   Sigma <- generateCovarianceMatrix(rho = rho, p = p);
   X <- randomMvNorm(n = n, p = p, Sigma = Sigma);
+  
   if (family == "gaussian") {
     y <- generateLinearY(X = X, beta_star = beta_star, sd = sd, n = n);
   } else if (family == "binomial") {
