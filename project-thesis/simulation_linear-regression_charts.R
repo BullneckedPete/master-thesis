@@ -55,30 +55,27 @@ plotSimulationLinearRegression <- function(betas, n, rho, sd, nreps, limitAxis, 
       linear_regression_bic <- linearRegressionBIC(X = X, y = y, candidate_models = candidate_models);
       soilBicLinearRegression[i, ] <- as.vector(linear_regression_bic$soil_importance);
     }
-    
-    # print the soil importance 
-    #print(colMeans(soilArmLinearRegression));
-    #print(colMeans(soilArmLinearRegression_author));
-    #print(colMeans(soilBicLinearRegression));
-    #print(colMeans(soilBicLinearRegression_author));
+  
+    rep_mean_arm <- colMeans(soilArmLinearRegression);
+    org_mean_arm <- colMeans(soilArmLinearRegression_author);
+    rep_mean_bic <- colMeans(soilBicLinearRegression);
+    org_mean_bic <- colMeans(soilBicLinearRegression_author);
     
     # create the line charts
     title <- bquote( rho == .(rho[j]) ~ ", " ~ sigma == .(sd[j]) );
-    plot(colMeans(soilArmLinearRegression), type = "b", ylim = c(0,1.4), xlim = c(1,limitAxis), ylab = "Importance", xlab = "Variable Index", 
+    plot(rep_mean_arm, type = "b", ylim = c(0,1.4), xlim = c(1,limitAxis), ylab = "Importance", xlab = "Variable Index", 
          pch = 15, main = title);
-    points(colMeans(soilArmLinearRegression_author), type = "b", col = "red", pch = 16);
-    points(colMeans(soilBicLinearRegression), type = "b", col = "blue", pch = 17);
-    points(colMeans(soilBicLinearRegression_author), type = "b", col = "forestgreen", pch = 18);
+    points(org_mean_arm, type = "b", col = "red", pch = 16);
+    points(rep_mean_bic, type = "b", col = "blue", pch = 17);
+    points(org_mean_bic, type = "b", col = "forestgreen", pch = 18);
     legend("topright", legend=c("Replication ARM", "SOIL ARM", "Replication BIC", "SOIL BIC"), 
            col=c("black", "red", "blue", "forestgreen"), pch = 15:18, ncol=2); 
     results[[paste("Plot ",j)]] <- list(
-        "Replication ARM" = colMeans(soilArmLinearRegression),
-        "SOIL ARM" = colMeans(soilArmLinearRegression_author),
-        "Replication BIC" = colMeans(soilBicLinearRegression),
-        "SOIL BIC" = colMeans(soilBicLinearRegression_author)
+        "Replication ARM" = rep_mean_arm,
+        "SOIL ARM" = org_mean_arm,
+        "Replication BIC" = rep_mean_bic,
+        "SOIL BIC" = org_mean_bic
       )
-    
-      
   }
   return(results);
 }

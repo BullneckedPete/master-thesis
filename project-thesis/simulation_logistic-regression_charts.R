@@ -40,26 +40,27 @@ plotSimulationLogisticRegression <- function(betas, n, rho, sd, nreps, limitAxis
       logistic_regression_bic <- logisticRegressionBIC(X = X, y = y, candidate_models = candidate_models);
       soilBicLogisticRegression[i, ] <- as.vector(logistic_regression_bic$soil_importance);
     }
-    #print(colMeans(soilArmLogisticRegression));
-    #print(colMeans(soilArmLogisticRegression_author));
-    #print(colMeans(soilBicLogisticRegression));
-    #print(colMeans(soilBicLogisticRegression_author));
+    
+    rep_mean_arm <- colMeans(soilArmLogisticRegression);
+    org_mean_arm <- colMeans(soilArmLogisticRegression_author);
+    rep_mean_bic <- colMeans(soilBicLogisticRegression);
+    org_mean_bic <- colMeans(soilBicLogisticRegression_author);
     
     # create the line charts
     title <- bquote( rho == .(rho[j]) );
-    plot(colMeans(soilArmLogisticRegression), type = "b", ylim = c(0,1.2), xlim = c(1,limitAxis), 
+    plot(rep_mean_arm, type = "b", ylim = c(0,1.2), xlim = c(1,limitAxis), 
          ylab = "Importance", xlab = "Variable Index",pch = 15, main = title);
-    points(colMeans(soilArmLogisticRegression_author), type = "b", col = "red", pch = 16);
-    points(colMeans(soilBicLogisticRegression), type = "b", col = "forestgreen", pch = 17);
-    points(colMeans(soilBicLogisticRegression_author), type = "b", col = "blue", pch = 18);
+    points(org_mean_arm, type = "b", col = "red", pch = 16);
+    points(rep_mean_bic, type = "b", col = "forestgreen", pch = 17);
+    points(org_mean_bic, type = "b", col = "blue", pch = 18);
     legend("topright", legend=c("Replication ARM", "SOIL ARM", "Replication BIC", "SOIL BIC"), 
            col=c("black", "red", "blue", "forestgreen"), pch = 15:18, ncol=2); 
     
     results[[paste("Plot ",j)]] <- list(
-      "Replication ARM" = colMeans(soilArmLogisticRegression),
-      "SOIL ARM" = colMeans(soilArmLogisticRegression_author),
-      "Replication BIC" = colMeans(soilBicLogisticRegression),
-      "SOIL BIC" = colMeans(soilBicLogisticRegression_author)
+      "Replication ARM" = rep_mean_arm,
+      "SOIL ARM" = org_mean_arm,
+      "Replication BIC" = rep_mean_bic,
+      "SOIL BIC" = org_mean_bic
     )
   }
   return(results);
