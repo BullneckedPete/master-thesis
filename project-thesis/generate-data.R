@@ -1,4 +1,4 @@
-generateData <- function(n, p, rho, sd, beta_star, family) {
+generateData <- function(n, p, rho, sd, beta_star, family, quad = FALSE) {
   
   generateCovarianceMatrix <- function(rho, p) {
     Sigma <- matrix(rep(0, times = p*p), nrow = p)
@@ -29,7 +29,15 @@ generateData <- function(n, p, rho, sd, beta_star, family) {
   }
   
   Sigma <- generateCovarianceMatrix(rho = rho, p = p);
-  X <- randomMvNorm(n = n, p = p, Sigma = Sigma);
+  
+  if (!quad){
+    X <- randomMvNorm(n = n, p = p, Sigma = Sigma);
+  } else {
+    X <- randomMvNorm(n = n, p = 6, Sigma = Sigma);
+    X <- rbind(X, X[1,]^2, X[2,]^2, X[3,]^2, X[4,]^2, X[5,]^2, X[6,]^2);
+    print(X)
+  }
+  
   
   if (family == "gaussian") {
     y <- generateLinearY(X = X, beta_star = beta_star, sd = sd, n = n);

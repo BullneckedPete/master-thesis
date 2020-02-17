@@ -4,9 +4,10 @@ source("ARM-linear-regression.R");
 source("BIC-linear-regression.R");
 require("SOIL");
 
-plotSimulationLinearRegression <- function(betas, n, rho, sd, nreps, limitAxis, noise = FALSE) {
+plotSimulationLinearRegression <- function(betas, n, rho, sd, nreps, limitAxis, noise = FALSE, quad = FALSE) {
   par(mfrow=c(2,2));
   nsim <- 100;
+  results <- list();
   if (length(rho) != length(sd)) {
     stop("rho and sd need to be vectors of same length!");
   }
@@ -23,18 +24,20 @@ plotSimulationLinearRegression <- function(betas, n, rho, sd, nreps, limitAxis, 
     soilBicLinearRegression_author <-  matrix(0, nrow = nreps, ncol = p);
     for (i in 1:nreps) {
       # generate the data
-      if (!noise) {
+      if (!noise && !quad) {
         data <- generateData(n = n, p = p, rho = rho[j], sd = sd[j], beta_star = betas, family = "gaussian");
-      } else {
+      } else if (quad) {
+        data <- generateData(n = n, p = p-6, rho = rho[j], sd = sd[j], beta_star = betas, family = "gaussian", quad = TRUE);
+      } else if (noise) {
         data <- generateData(n = n, p = p-1, rho = rho[j], sd = sd[j], beta_star = betas, family = "gaussian");
       }
       
       X <- data$X;
       y <- data$y;
       
-      # Example 3: specific case when adding arbitrary noise
+      # Example 2: specific case when adding arbitrary noise
       if (noise) {
-        X <- cbind(X, 0.5*X[,1]+ 2*X[,4]+ rnorm(n, mean = 0, sd = sd));
+        X <- cbind(X, 0.5*X[,1]+ 2*X[,4]+ rnorm(n, mean = 0, sd = 0.01));
       }
       
       # obtain the candidate models
@@ -54,22 +57,30 @@ plotSimulationLinearRegression <- function(betas, n, rho, sd, nreps, limitAxis, 
     }
     
     # print the soil importance 
-    print(colMeans(soilArmLinearRegression));
-    print(colMeans(soilArmLinearRegression_author));
-    print(colMeans(soilBicLinearRegression));
-    print(colMeans(soilBicLinearRegression_author));
+    #print(colMeans(soilArmLinearRegression));
+    #print(colMeans(soilArmLinearRegression_author));
+    #print(colMeans(soilBicLinearRegression));
+    #print(colMeans(soilBicLinearRegression_author));
     
     # create the line charts
-    title <- bquote( rho == .(rho[j]) ~ ", " ~ sigma == .(sd[j]));
-    plot(colMeans(soilArmLinearRegression), type = "b", ylim = c(0,1.5), xlim = c(1,limitAxis), ylab = "Importance", xlab = "Variable Index", 
+    title <- bquote( rho == .(rho[j]) ~ ", " ~ sigma == .(sd[j]) );
+    plot(colMeans(soilArmLinearRegression), type = "b", ylim = c(0,1.4), xlim = c(1,limitAxis), ylab = "Importance", xlab = "Variable Index", 
          pch = 15, main = title);
     points(colMeans(soilArmLinearRegression_author), type = "b", col = "red", pch = 16);
     points(colMeans(soilBicLinearRegression), type = "b", col = "blue", pch = 17);
     points(colMeans(soilBicLinearRegression_author), type = "b", col = "forestgreen", pch = 18);
     legend("topright", legend=c("Replication ARM", "SOIL ARM", "Replication BIC", "SOIL BIC"), 
            col=c("black", "red", "blue", "forestgreen"), pch = 15:18, ncol=2); 
+    results[[paste("Plot ",j)]] <- list(
+        "Replication ARM" = colMeans(soilArmLinearRegression),
+        "SOIL ARM" = colMeans(soilArmLinearRegression_author),
+        "Replication BIC" = colMeans(soilBicLinearRegression),
+        "SOIL BIC" = colMeans(soilBicLinearRegression_author)
+      )
+    
+      
   }
-  
+  return(results);
 }
 
 
