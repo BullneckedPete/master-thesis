@@ -51,8 +51,8 @@ plotSimulationLogisticRegression <- function(betas, n, rho, sd, nreps, limitAxis
     plot(rep_mean_arm, type = "b", ylim = c(0,1.2), xlim = c(1,limitAxis), 
          ylab = "Importance", xlab = "Variable Index",pch = 15, main = title);
     points(org_mean_arm, type = "b", col = "red", pch = 16);
-    points(rep_mean_bic, type = "b", col = "forestgreen", pch = 17);
-    points(org_mean_bic, type = "b", col = "blue", pch = 18);
+    points(rep_mean_bic, type = "b", col = "blue", pch = 17);
+    points(org_mean_bic, type = "b", col = "forestgreen", pch = 18);
     legend("topright", legend=c("Replication ARM", "SOIL ARM", "Replication BIC", "SOIL BIC"), 
            col=c("black", "red", "blue", "forestgreen"), pch = 15:18, ncol=2); 
     
