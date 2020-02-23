@@ -2,7 +2,7 @@ source("simulation_linear-regression_charts.R");
 source("simulation_logistic-regression_charts.R");
 
 set.seed(123);
-nreps <- 1;
+nreps <- 200;
 
 #### Example 1: Linear regression ####
 n <- 100;
@@ -101,7 +101,7 @@ betas <- c(2, 3, 0, 0, 3/2, rep(0, times = 295));
 rho <- c(0, 0.5, 0.9);
 sd <- c(NA, NA, NA);
 example10 <- plotSimulationLogisticRegression(betas = betas, n = n, rho = rho, sd = sd, 
-                                 nreps= nreps, limitAxis = 20) 
+                                 nreps= nreps, limitAxis = 10) 
 example10
 save(example10, file = "plots/example10.RData")
 

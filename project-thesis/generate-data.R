@@ -35,7 +35,6 @@ generateData <- function(n, p, rho, sd, beta_star, family, quad = FALSE) {
   } else {
     X <- randomMvNorm(n = n, p = 6, Sigma = Sigma);
     X <- rbind(X, X[1,]^2, X[2,]^2, X[3,]^2, X[4,]^2, X[5,]^2, X[6,]^2);
-    print(X)
   }
   
   
