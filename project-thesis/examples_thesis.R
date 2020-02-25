@@ -2,7 +2,7 @@ source("simulation_linear-regression_charts.R");
 source("simulation_logistic-regression_charts.R");
 
 set.seed(123);
-nreps <- 200;
+nreps <- 10;
 
 #### Example 1: Linear regression ####
 n <- 100;
