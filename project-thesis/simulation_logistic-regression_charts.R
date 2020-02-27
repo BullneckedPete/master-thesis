@@ -29,13 +29,13 @@ plotSimulationLogisticRegression <- function(betas, n, rho, sd, nreps, limitAxis
       candidate_models <- candidateModels(X = X, y = y, family = "binomial");
       
       # ARM
-      v_ARM_logistic <- SOIL(X, y, family = "binomial", weight_type = "ARM", prior = TRUE);
+      v_ARM_logistic <- SOIL(X, y, family = "binomial", weight_type = "ARM", method = "customize", candidate_models = t(candidate_models));
       soilArmLogisticRegression_author[i, ] <- as.vector(v_ARM_logistic$importance);
       logistic_regression_arm <- logisticRegressionARM(X = X, y = y, nsim = nsim, candidate_models = candidate_models);
       soilArmLogisticRegression[i, ] <- as.vector(logistic_regression_arm$soil_importance);
       
       #BIC
-      v_BIC_logistic <- SOIL(X, y, family = "binomial", weight_type = "BIC", prior = TRUE);
+      v_BIC_logistic <- SOIL(X, y, family = "binomial", weight_type = "BIC", method = "customize", candidate_models = t(candidate_models));
       soilBicLogisticRegression_author[i, ] <- as.vector(v_BIC_logistic$importance);
       logistic_regression_bic <- logisticRegressionBIC(X = X, y = y, candidate_models = candidate_models);
       soilBicLogisticRegression[i, ] <- as.vector(logistic_regression_bic$soil_importance);

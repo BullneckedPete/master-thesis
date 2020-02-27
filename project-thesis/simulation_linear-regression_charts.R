@@ -44,13 +44,14 @@ plotSimulationLinearRegression <- function(betas, n, rho, sd, nreps, limitAxis, 
       candidate_models <- candidateModels(X = X, y = y, family = "gaussian");
       
       # ARM
-      v_ARM <- SOIL(X, y, family = "gaussian", weight_type = "ARM", prior = TRUE);
-      soilArmLinearRegression_author[i, ] <- as.vector(v_ARM$importance);
       linear_regression_arm <- linearRegressionARM(X = X, y = y, nsim = nsim, candidate_models = candidate_models);
       soilArmLinearRegression[i, ] <- as.vector(linear_regression_arm$soil_importance);
+      v_ARM <- SOIL(X, y, family = "gaussian", weight_type = "ARM", method = "customize", candidate_models = t(candidate_models));
+      soilArmLinearRegression_author[i, ] <- as.vector(v_ARM$importance);
+      
       
       # BIC 
-      v_BIC <- SOIL(X, y, family = "gaussian", weight_type = "BIC", prior = TRUE);
+      v_BIC <- SOIL(X, y, family = "gaussian", weight_type = "BIC", method = "customize", candidate_models = t(candidate_models));
       soilBicLinearRegression_author[i, ] <- as.vector(v_BIC$importance);
       linear_regression_bic <- linearRegressionBIC(X = X, y = y, candidate_models = candidate_models);
       soilBicLinearRegression[i, ] <- as.vector(linear_regression_bic$soil_importance);

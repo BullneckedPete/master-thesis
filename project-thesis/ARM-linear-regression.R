@@ -1,5 +1,5 @@
 source("helpers.R");
-linearRegressionARM <- function(X, y, nsim, candidate_models, phi = 1) {
+linearRegressionARM <- function(X, y, nsim, candidate_models, psi = 1) {
   weight_vectors <- matrix(0, ncol = ncol(candidate_models), nrow = nsim);
   n <- nrow(X);
   p <- ncol(X);
@@ -46,21 +46,19 @@ linearRegressionARM <- function(X, y, nsim, candidate_models, phi = 1) {
         # compute the constant c_k used to compute the weight w_k later
         C_k <- calculateCk(s_k = s_k[i], p = p);
         # compute the nominator of the weight vector w_k for each candidate model
-        w_k_numerator[i] <- exp(1)^(-phi*C_k) * (sigma_hat^(-n/2)) * 
+        w_k_numerator[i] <- exp(1)^(-psi*C_k) * (sigma_hat^(-n/2)) * 
                 prod(exp(-(sigma_hat^-2) * ((y2 - y2_prediction)^2)/2));
-        w_k_numerator[i] <- -(phi*C_k) + (-n/2) * log(sigma_hat)- ((sigma_hat)^(-2)) * sum((y2 - y2_prediction)^2)/2
+        #w_k_numerator[i] <- -(phi*C_k) + (-n/2) * log(sigma_hat)- ((sigma_hat)^(-2)) * sum((y2 - y2_prediction)^2)/2
       }
     }
     
     # clean weight vector
     w_k_numerator[is.nan(w_k_numerator)] <- 0;
-    w_k_numerator <- w_k_numerator-max(w_k_numerator);
+    #w_k_numerator <- w_k_numerator - max(w_k_numerator);
     # average out the current weight vector in iteration j
-    weight_vectors[j, ] <- exp(w_k_numerator) / sum(exp(w_k_numerator));
+    weight_vectors[j, ] <- w_k_numerator / sum(w_k_numerator);
     #weight_vectors[j, ] <- w_k_numerator;
   }
-  
-  #weight_vectors <- sweep(weight_vectors, MARGIN = 2, apply(weight_vectors, 1, max), "-")
   
   # compute the final weight vector
   weight_vector <- colMeans(checkIfWeightsValid(weight_vectors));
