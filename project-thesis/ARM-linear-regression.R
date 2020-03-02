@@ -23,13 +23,16 @@ linearRegressionARM <- function(X, y, nsim, candidate_models, psi = 1) {
     for (i in 1:k) {
       # get the indices to select the right positions of the design matrix
       indices <- as.vector(which(candidate_models[,i] != 0));
-      Xs_k <- D1[ ,indices];
+      if (length(indices) == 0) {
+        fit_lm_k <- lm( y1 ~ 1 );
+      } else {
+        Xs_k <- D1[ ,indices];
+        # prepare the data for the linear regression
+        reg_data <- as.data.frame(cbind(y1, Xs_k));
+        # fit standard linear regression of y on Xs_k using the training set D1
+        fit_lm_k <- lm( y1 ~ . , data = reg_data );
+      }
       
-      # prepare the data for the linear regression
-      reg_data <- as.data.frame(cbind(y1, Xs_k));
-      
-      # fit standard linear regression of y on Xs_k using the training set D1
-      fit_lm_k <- lm( y1 ~ . , data = reg_data );
       
       if (any(is.na(fit_lm_k$coefficients[-1]))) {
         # not enough information to estimate the parameters

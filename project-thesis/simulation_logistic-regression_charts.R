@@ -4,13 +4,11 @@ source("ARM-logistic-regression.R");
 source("BIC-logistic-regression.R");
 require("SOIL");
 
-plotSimulationLogisticRegression <- function(betas, n, rho, sd, nreps, limitAxis) 
-{
+plotSimulationLogisticRegression <- function(betas, n, rho, sd, nreps, limitAxis) {
   par(mfrow=c(1,3));
   nsim <- 100;
   results <- list();
-  for(j in 1:length(rho)) 
-  {
+  for(j in 1:length(rho)) {
     beta <- matrix(betas, ncol = 1);
     p <- nrow(beta);
     soilArmLogisticRegression <- matrix(0, nrow = nreps, ncol = p);
@@ -18,8 +16,7 @@ plotSimulationLogisticRegression <- function(betas, n, rho, sd, nreps, limitAxis
     soilBicLogisticRegression <- matrix(0, nrow = nreps, ncol = p);
     soilBicLogisticRegression_author <- matrix(0, nrow = nreps, ncol = p);
     
-    for (i in 1:nreps) 
-    {
+    for (i in 1:nreps) {
       # generate the data
       data <- generateData(n = n, p = p, rho = rho[j], sd = sd[j], beta_star = beta, family = "binomial");
       X <- data$X;

@@ -1,5 +1,5 @@
 source("helpers.R");
-linearRegressionBIC <- function(X, y, candidate_models, phi = 1) {
+linearRegressionBIC <- function(X, y, candidate_models, psi = 1) {
   I_k <- rep(0, ncol(candidate_models));
   w_k_numerator <- C_k <- numeric(ncol(candidate_models));
   s_k <- apply(candidate_models, 2, sum);
@@ -7,17 +7,22 @@ linearRegressionBIC <- function(X, y, candidate_models, phi = 1) {
   p <- ncol(X);
   for (i in 1:k) {
     indices <- as.vector(which(candidate_models[,i] != 0));
-    Xs_k <- X[ ,indices];
-    reg_data <- as.data.frame(cbind(y, Xs_k));
-    colnames(reg_data)[1] <- "y";
-    fit_lm_k <- lm( y ~ . , data = reg_data );
+    if (length(indices) == 0) {
+      fit_lm_k <- lm(y ~ 1);
+    } else {
+      Xs_k <- X[ ,indices];
+      reg_data <- as.data.frame(cbind(y, Xs_k));
+      colnames(reg_data)[1] <- "y";
+      fit_lm_k <- lm( y ~ . , data = reg_data );
+    }
     I_k[i] <- BIC(fit_lm_k);
     C_k[i] <- calculateCk(s_k[i], p);
     if (is.infinite(I_k[i])) {
       w_k_numerator[i] <- rep(0, times = k);
     } else {
-      w_k_numerator[i] <- exp(-I_k[i]/2 - phi*C_k[i]);
+      w_k_numerator[i] <- exp(-I_k[i]/2 - psi*C_k[i]);
     }
+    
   }
   #I_k <- I_k - min(I_k);
   #w_k_numerator <- exp(-I_k/2 - phi*C_k);

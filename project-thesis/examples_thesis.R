@@ -1,7 +1,7 @@
 source("simulation_linear-regression_charts.R");
 source("simulation_logistic-regression_charts.R");
 
-set.seed(123);
+set.seed(456);
 nreps <- 100;
 
 #### Example 1: Linear regression ####
@@ -12,7 +12,7 @@ sd <- c(0.1, 0.1, 5, 5);
 example1 <- plotSimulationLinearRegression(betas = betas, n = n, 
                       rho = rho, sd = sd, nreps = nreps, limitAxis = 20);
 example1
-save(example1, file = "new_plots/example1.RData")
+save(example1, file = "new_plots_100/example1.RData")
 
 #### Example 2: Linear regression ####
 n <- 100;
@@ -22,7 +22,7 @@ sd <- c(1.5, 1.5, 3.5, 3.5);
 example2 <- plotSimulationLinearRegression(betas = betas, n = n, 
                                            rho = rho, sd = sd, nreps = nreps, limitAxis = 20);
 example2
-save(example2, file = "new_plots/example2.RData")
+save(example2, file = "new_plots_100/example2.RData")
 
 #### Example 3: Linear Regression ####
 n <- 150;
@@ -32,7 +32,7 @@ sd <- c(0.1, 0.1, 5, 5);
 example3 <- plotSimulationLinearRegression(betas = betas, n = n, 
         rho = rho, sd = sd, nreps = nreps, limitAxis = 15, noise = TRUE);
 example3
-save(example3, file = "new_plots/example3.RData")
+save(example3, file = "new_plots_100/example3.RData")
 
 #### Example 4: Linear Regression ####
 n <- 150;
@@ -42,7 +42,7 @@ sd <- c(0.1, 0.1, 5, 5);
 example4 <- plotSimulationLinearRegression(betas = betas, n = n, 
                                         rho = rho, sd = sd, nreps = nreps, limitAxis = 12, quad = TRUE);
 example4
-save(example4, file = "new_plots/example4.RData")
+save(example4, file = "new_plots_100/example4.RData")
 
 #### Example 5: Linear Regression ####
 n <- 150;
@@ -52,7 +52,7 @@ sd <- c(0.1, 0.1, 5, 5);
 example5 <- plotSimulationLinearRegression(betas = betas, n = n, 
                       rho = rho, sd = sd, nreps = nreps, limitAxis = 8);
 example5
-save(example5, file = "new_plots/example5.RData")
+save(example5, file = "new_plots_100/example5.RData")
 
 #### Example 6: Linear Regression ####
 n <- 150;
@@ -62,7 +62,7 @@ sd <- c(1.5, 1.5, 3.5, 3.5);
 example6 <- plotSimulationLinearRegression(betas = betas, n = n, 
                                            rho = rho, sd = sd, nreps = nreps, limitAxis = 8);
 example6
-save(example6, file = "new_plots/example6.RData")
+save(example6, file = "new_plots_100/example6.RData")
 
 
 #### Example 7: Logistic regression ####
@@ -73,7 +73,7 @@ sd <- c(NA, NA, NA);
 example7 <- plotSimulationLogisticRegression(betas = betas, n = n, rho = rho, sd = sd, 
                             nreps= nreps, limitAxis = 7) 
 example7
-save(example7, file = "new_plots/example7.RData")
+save(example7, file = "new_plots_100/example7.RData")
 
 #### Example 8: Logistic regression #
 n <- 5000;
@@ -83,7 +83,7 @@ sd <- c(NA, NA, NA);
 example8 <- plotSimulationLogisticRegression(betas = betas, n = n, rho = rho, sd = sd, 
                                              nreps= nreps, limitAxis = 7) 
 example8
-save(example8, file = "new_plots/example8.RData")
+save(example8, file = "new_plots_100/example8.RData")
 
 
 #### Example 9: Logistic regression ####
@@ -94,7 +94,7 @@ sd <- c(NA, NA, NA);
 example9 <- plotSimulationLogisticRegression(betas = betas, n = n, rho = rho, sd = sd, 
                               nreps= nreps, limitAxis = 12) 
 example9
-save(example9, file = "new_plots/example9.RData")
+save(example9, file = "new_plots_100/example9.RData")
 
 #### Example 10: logistic regression ####
 n <- 250;
@@ -104,6 +104,6 @@ sd <- c(NA, NA, NA);
 example10 <- plotSimulationLogisticRegression(betas = betas, n = n, rho = rho, sd = sd, 
                                  nreps= nreps, limitAxis = 10) 
 example10
-save(example10, file = "new_plots/example10.RData")
+save(example10, file = "new_plots_100/example10.RData")
 
 

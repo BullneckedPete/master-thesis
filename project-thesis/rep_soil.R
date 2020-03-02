@@ -11,7 +11,8 @@ source("BIC-logistic-regression.R");
 # @params family: "gaussian" for linear regression or "binomial" for logistic regression
 # @params weight_type: either "ARM" for adaptive regression by mixing or "BIC" for
 #         using BIC-p weighting
-rep_SOIL <- function(X, y, nsim = 100, psi = 1, L = 100, family = "gaussian", weight_type = "ARM") {
+rep_SOIL <- function(X, y, nsim = 100, psi = 1, L = 100, family = "gaussian", 
+                     weight_type = "ARM", customize = FALSE, candidate_models = matrix(0)) {
   
   if ( !(family %in% c("gaussian", "binomial")) ) {
     stop("The parameter 'family' has to be 'gaussian' or 'binomial'!");
@@ -19,7 +20,13 @@ rep_SOIL <- function(X, y, nsim = 100, psi = 1, L = 100, family = "gaussian", we
   if (!(weight_type %in% c("ARM", "BIC")) ) {
     stop("The parameter 'weight_type' has to be 'ARM' or 'BIC'!");
   }
-  candidate_models <- candidateModels(X = X, y = y, L = L, family = family);
+  
+  if (!customize) {
+    candidate_models <- candidateModels(X = X, y = y, L = L, family = family);
+  } else {
+    candidate_models <- candidate_models;
+  }
+  
   if (family == "gaussian") {
     if (weight_type == "ARM") {
       soil <- linearRegressionARM(X = X, y = y, nsim = nsim, candidate_models = candidate_models);
