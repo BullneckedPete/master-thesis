@@ -9,6 +9,7 @@ set.seed(456);
 load("data/BGSboys.rda");
 y <- as.vector(BGSboys$HT18);
 x <- as.matrix(BGSboys[, -c(8)]);
+x <- scale(x)
 candidate_models <- candidateModels(x, y, family = "gaussian"); # A = { A_lasso, A_scad, A_mcp }
 #candidate_models <- t(SOIL(x, y, weight_type = "ARM")$candidate_models_cleaned) # A = { A_lasso }
 # ARM
@@ -43,6 +44,7 @@ imp_BGS_rf2[order(imp_BGS_rf1[,1], decreasing = TRUE), ]
 
 #### Linear Regression: Bardet ####
 load("data/Bardet.rda");
+x <- scale(x)
 candidate_models <- candidateModels(x, y, family = "gaussian"); # A = { A_lasso, A_scad, A_mcp }
 #candidate_models <- t(SOIL(x, y, weight_type = "ARM")$candidate_models_cleaned) # A = { A_lasso } #, customize = TRUE, candidate_models = candidate_models
 # ARM
@@ -80,6 +82,7 @@ detach(Bardet)
 #### Logistic regression: Lung cancer ####
 load("data/Lung.rda");
 x <- t(Lung_Boston_x[,-c(1,2)]);
+x <- scale(x)
 gene_names <- Lung_Boston_x$NAME;
 colnames(x) <- gene_names;
 y <- numeric(length(Lung_Boston_y));
