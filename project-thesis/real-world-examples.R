@@ -44,12 +44,11 @@ imp_BGS_rf2[order(imp_BGS_rf1[,1], decreasing = TRUE), ]
 
 #### Linear Regression: Bardet ####
 load("data/Bardet.rda");
-x <- scale(x)
 candidate_models <- candidateModels(x, y, family = "gaussian"); # A = { A_lasso, A_scad, A_mcp }
-#candidate_models <- t(SOIL(x, y, weight_type = "ARM")$candidate_models_cleaned) # A = { A_lasso } #, customize = TRUE, candidate_models = candidate_models
+candidate_models <- SOIL(x, y, weight_type = "ARM")$candidate_models_cleaned
 # ARM
 BARDET_rep_arm <- round(rep_SOIL(X = x, y = y, weight_type = "ARM")$soil_importance, 3);
-BARDET_soil_arm <- round(SOIL(x, y, weight_type = "ARM", method = "customize", candidate_models = t(candidate_models))$importance, 3);
+BARDET_soil_arm <- round(SOIL(x, y, weight_type = "ARM", method = "union")$importance, 3);
 
 # BIC
 BARDET_rep_bic <- round(rep_SOIL(X = x, y = y, weight_type = "BIC")$soil_importance, 3);
@@ -60,6 +59,7 @@ BARDET_soil_arm <- matrix(BARDET_soil_arm, nrow = 1);
 BARDET_rep_bic <- matrix(BARDET_rep_bic, nrow = 1);
 BARDET_soil_bic <- matrix(BARDET_soil_bic, nrow = 1);
 colnames(BARDET_rep_arm) <- colnames(BARDET_soil_arm) <- colnames(BARDET_rep_bic) <- colnames(BARDET_soil_bic) <- colnames(x);
+colnames(BARDET_soil_arm) <- colnames(x);
 sort(BARDET_rep_arm[ ,which(as.vector(BARDET_rep_arm) > 0)], decreasing = TRUE);
 sort(BARDET_soil_arm[ ,which(as.vector(BARDET_soil_arm) > 0)], decreasing = TRUE);
 sort(BARDET_rep_bic[ ,which(as.vector(BARDET_rep_bic) > 0)], decreasing = TRUE);
@@ -73,16 +73,15 @@ attach(Bardet)
 rf_Bardet <- randomForest(y ~ ., data=Bardet, ntree=1000,
                        keep.forest=FALSE, importance=TRUE)
 imp_Bardet_rf1 <- importance(rf_Bardet, type = 1);
-imp_Bardet_rf1[order(imp_Bardet_rf1[,1], decreasing = TRUE), ][1:10]
+imp_Bardet_rf1[order(imp_Bardet_rf1[,1], decreasing = TRUE), ][1:20]
 
 imp_Bardet_rf2 <- importance(rf_Bardet, type = 2);
-imp_Bardet_rf2[order(imp_Bardet_rf1[,1], decreasing = TRUE), ][1:10]
+imp_Bardet_rf2[order(imp_Bardet_rf2[,1], decreasing = TRUE), ][1:20]
 detach(Bardet)
 
 #### Logistic regression: Lung cancer ####
 load("data/Lung.rda");
 x <- t(Lung_Boston_x[,-c(1,2)]);
-x <- scale(x)
 gene_names <- Lung_Boston_x$NAME;
 colnames(x) <- gene_names;
 y <- numeric(length(Lung_Boston_y));
@@ -120,6 +119,6 @@ imp_Lung_cancer_rf1 <- importance(rf_Lung_cancer, type = 1);
 imp_Lung_cancer_rf1[order(imp_Lung_cancer_rf1[,1], decreasing = TRUE), ][1:10]
 
 imp_Lung_cancer_rf2 <- importance(rf_Lung_cancer, type = 2);
-imp_Lung_cancer_rf2[order(imp_Lung_cancer_rf1[,1], decreasing = TRUE), ][1:10]
-detach(Lung_cancer)
+imp_Lung_cancer_rf2[order(imp_Lung_cancer_rf2[,1], decreasing = TRUE), ][1:10]
+
 
