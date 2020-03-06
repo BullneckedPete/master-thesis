@@ -2,7 +2,6 @@ source("candidate-models.R");
 require(randomForest);
 require(SOIL);
 set.seed(456);
-#### Cross examination procedure for linear regression - Bardet data set ####
 load("data/Bardet.rda");
 Bardet <- as.data.frame(cbind(y,x));
 attach(Bardet);

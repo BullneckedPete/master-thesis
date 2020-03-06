@@ -16,7 +16,7 @@ attach(Lung_cancer);
 colnames(Lung_cancer)[1] <- "y"
 candidate_models <- candidateModels(x, y, family = "binomial"); # A = { A_lasso, A_scad, A_mcp }
 methods <- c("soil_arm", "soil_bic", "rf1", "rf2");
-reps <- 1;
+reps <- 100;
 soil_arm <- matrix(NA, ncol = ncol(x), nrow = reps);
 soil_bic <- matrix(NA, ncol = ncol(x), nrow = reps);
 rf1 <- matrix(NA, ncol = ncol(x), nrow = reps);
@@ -67,10 +67,10 @@ for (method in methods) {
   names(mean_soil_arm) <- names(mean_soil_bic) <- names(mean_rf1) <- names(mean_rf2) <- colnames(x);
   
   importance_results_lung_cancer[[paste("Base measure: ", method)]] <- list (
-    "soil_arm" = sort(mean_soil_arm, decreasing = TRUE)[1:20],
-    "soil_bic" = sort(mean_soil_bic, decreasing = TRUE)[1:20],
-    "rf1" = sort(mean_rf1, decreasing = TRUE)[1:20],
-    "rf2" = sort(mean_rf2, decreasing = TRUE)[1:20]
+    "soil_arm" = sort(mean_soil_arm, decreasing = TRUE),
+    "soil_bic" = sort(mean_soil_bic, decreasing = TRUE),
+    "rf1" = sort(mean_rf1, decreasing = TRUE),
+    "rf2" = sort(mean_rf2, decreasing = TRUE)
   );
   
 }

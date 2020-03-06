@@ -4,7 +4,6 @@ source("BIC-linear-regression.R");
 source("ARM-logistic-regression.R");
 source("BIC-logistic-regression.R");
 
-
 # @params psi: a positive number to control the improvement of the prior weight (defaults to 1)
 # @params nsim: number of simulations when weight_type ARM is used
 # @params L: number of regularization parameters to coose the candidate models

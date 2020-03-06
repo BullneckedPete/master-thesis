@@ -22,7 +22,6 @@ logisticRegressionBIC <- function(X, y, candidate_models, psi = 1) {
     } else {
       w_k_numerator[i] <- exp(-I_k[i]/2 - psi*C_k[i]);
     }
-   
   }
   w_k_numerator[is.nan(w_k_numerator)] <- 0;
   weight_vector <- w_k_numerator / sum(w_k_numerator);

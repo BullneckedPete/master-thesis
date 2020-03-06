@@ -24,8 +24,6 @@ linearRegressionBIC <- function(X, y, candidate_models, psi = 1) {
     }
     
   }
-  #I_k <- I_k - min(I_k);
-  #w_k_numerator <- exp(-I_k/2 - phi*C_k);
   w_k_numerator[is.nan(w_k_numerator)] <- 0;
   weight_vector <- w_k_numerator / sum(w_k_numerator);
   soil_importance <- weight_vector %*% t(candidate_models);
